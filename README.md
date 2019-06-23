@@ -192,7 +192,7 @@ kubernetes      ClusterIP      10.96.0.1       <none>        443/TCP        26d
 
 #Application is UP and running, let's access it with commands and postman tool.
 * postman tool
-![alt text](https://github.com/manukoli1986/terraform_KOPS_flask_PG/blob/master/image/prometheus.png)
+![alt text](https://github.com/manukoli1986/python-flaskapp/blob/master/images/postman.jpg)
 
 
 
@@ -200,4 +200,4 @@ kubernetes      ClusterIP      10.96.0.1       <none>        443/TCP        26d
 ```
 $ curl -X POST http://192.168.99.101:32660/api -H 'Content-Type: application/json'  -d '{"message" : "Game"}'
 ```
-![alt text](https://github.com/manukoli1986/terraform_KOPS_flask_PG/blob/master/image/grafana.png)
+![alt text](https://github.com/manukoli1986/python-flaskapp/blob/master/images/curl.jpg)
