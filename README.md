@@ -1,9 +1,9 @@
 # Project Details
 
 Overview:
-● Implement two basic, dependent microservices.
-● Deploy the solution on a local container orchestrator(Minikube).
-● Create a diagram and briefly explain how this would be deployed using Continuous
+1. Implement two basic, dependent microservices.
+2. Deploy the solution on a local container orchestrator(Minikube).
+3. Create a diagram and briefly explain how this would be deployed using Continuous
 Integration / Deployment on a cloud provider.
 
 
@@ -28,6 +28,7 @@ $ minikube.exe start
 ```
 
 ```
+# TASK 1
 
 ### This project consist of two steps:
 1. Created two dockerized microservices using alpine python as base image and used flask framework to provide Restapi endpoints.
@@ -128,6 +129,7 @@ if __name__ == "__main__":
 
 * Once images are built then I am provisioning them on kubernetes(minikube).
 
+# TASK 2
 2. I have simply made code which is well structured, extensible, testable, readable. You can find that I am  running two different container in same/one pod so that first app (which is accessible by public) can reach to second app (which is running on localhost and default port).
 
 ```
@@ -201,3 +203,16 @@ kubernetes      ClusterIP      10.96.0.1       <none>        443/TCP        26d
 $ curl -X POST http://192.168.99.101:32660/api -H 'Content-Type: application/json'  -d '{"message" : "Game"}'
 ```
 ![alt text](https://github.com/manukoli1986/python-flaskapp/blob/master/images/curl.jpg)
+
+# TASK 3
+* Create a diagram and briefly explain how this would be deployed using Continuous
+Integration / Deployment on a cloud provider
+
+1. Developer commits code using a standard git push command.
+2. Jenkins picks up that new code has been pushed to AWS CodeCommit.
+3. Jenkins pulls a Docker image from Amazon ECR.
+4. Jenkins rebuilds the Docker image incorporating the developer’s changes.
+5. Jenkins pushes updated the Docker image to Amazon ECR.
+6. Jenkins starts the task/service using the updated image in an Amazon EKS cluster using anisble.(Will using Blue/Green deployment if we have good amount of resource or rollout deployment if we have to cost cutting)
+
+![alt text](https://github.com/manukoli1986/python-flaskapp/blob/master/images/cicd.jpg)
