@@ -205,14 +205,31 @@ $ curl -X POST http://192.168.99.101:32660/api -H 'Content-Type: application/jso
 ![alt text](https://github.com/manukoli1986/python-flaskapp/blob/master/images/curl.jpg)
 
 # TASK 3
-* Create a diagram and briefly explain how this would be deployed using Continuous
-Integration / Deployment on a cloud provider
+A) Produce a system diagram and a brief description of how you would deploy the solution
+on a cloud provider such as AWS or GCP.
+
+![alt text](https://github.com/manukoli1986/python-flaskapp/blob/master/images/cicd.jpg)
 
 1. Developer commits code using a standard git push command.
 2. Jenkins picks up that new code has been pushed to AWS CodeCommit.
 3. Jenkins pulls a Docker image from Amazon ECR.
 4. Jenkins rebuilds the Docker image incorporating the developer’s changes.
 5. Jenkins pushes updated the Docker image to Amazon ECR.
-6. Jenkins starts the task/service using the updated image in an Amazon EKS cluster using anisble.(Will using Blue/Green deployment if we have good amount of resource or rollout deployment if we have to cost cutting)
+6. Jenkins starts the task/service using the updated image in an Amazon EKS cluster using anisble.
 
-![alt text](https://github.com/manukoli1986/python-flaskapp/blob/master/images/cicd.jpg)
+B) Explain how you would integrate CI/CD to perform deployments, and how you would
+ensure downtime was avoided?
+
+As discribed above, the steps we can implement complete CICD and even more we can add more tool for over requirement i.e. Docker sign images, Docker smaller images, Multiimage Dockerfile, Nexus, JUnit Test for Images etc. For ensure we can adopt Blue Green Deployment strategy. we gives an idea blue and green where Blue would be treated as Live traffic serving and for Green we will bring new version of application. 
+
+
+##Below are the steps mentioned:
+
+1. Prepare the blue deployment and green deployment with VERSION=1 and TARGET_ROLE set to blue or green respectively.
+2. Prepare the public service endpoint, which initially routes to one of the backend environments, say TARGET_ROLE=blue.
+3. Then prepare a test endpoint so that we can visit the backend environments for testing. They are similar to the public service endpoint, but they are intended to be accessed internally by the dev/ops team only.
+4. Update the application in the inactive environment, say green environment. Set TARGET_ROLE=green and VERSION=2 in the deployment config to update the green environment.
+5. Test the deployment via the test-green test endpoint to ensure the green environment is ready to serve client traffic.
+6. Switch the frontend Service routing to the green environment by updating the Service config with TARGET_ROLE=green.
+7. Run additional tests on the public endpoint to ensure it is working properly.
+8. Now the blue environment is idle and we can leave it with the old application so that we can roll back if there’s issue with the new application or reduce its replica count to save the occupied resources
